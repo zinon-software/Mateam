@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="box-element">
+    <a class="btn btn-outline-dark" href="{% url 'listProducts' %}">&#x2190; Continue Shopping</a>
+    <br>
+    <br>
+    <table class="table">
+    <tr>
+        <th><t5>Items: <strong>{{ order.get_cart_items }}</strong></t5></th>
+        <th><t5>Total: <strong> ${{ order.get_cart_total }}</strong></t5></th>
+        <th>
+        <a style="float: right; margin: 5px;" class="btn btn-success" href="{% url 'checkout'%}">Checkout</a>
+        </th>
+    </tr>
+    </table>
+
+    <table>
+    {% for item in items %}
+    <tr>
+        <th>اسم الطلب :  </th>
+        <th>{{item.product.name}}</th>
+        <th>  السعر : </th>
+        <th>{{item.product.price}}</th>
+        <th>  الكمية : </th>
+        <th>{{item.quantity}}</th>
+        <th>  سعر الكمية : </th>
+        <th>{{item.get_total}}</th>
+        <th></th>
+        <th><button data-product="{{ item.product.id }}" data-action="add" data-reload="yes" class="btn btn-outline-secondary add-to-cart update-cart">Add to Cart</button></th>
+        <th><button data-product="{{ item.product.id }}" data-action="remove" data-reload="yes" class="btn btn-outline-secondary add-to-cart update-cart">remove to Cart</button></th>
+
+    </tr>
+    {% endfor %}
+    </table>
+
+</div>
+
+
+{% endblock content %}
+
+{% block javaScriot %}
+    
+    
+{% endblock javaScriot %}
