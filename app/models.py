@@ -3,18 +3,28 @@ from django.db import models
 
 # Create your models here.
 
+CUSTOMER_STATUS = [
+    ('CU', 'عميل'),
+    ('AD', 'مسؤول'),
+    ('DL', 'سائق توصيل'),
+    ('SH', 'طباخ'),
+]
+
 ORDER_STATUS = [
+    ('NO', 'لم يم ارسالة بعد'),
     ('UR', 'قيد المراجعة'),
     ('BA', 'تمت الموافة'),
     ('UP', 'قيد التحضر'),
     ('BS', 'تم الارسال'),
     ('DE', 'تم التوصيل'),
+    ('FH', 'تم إلغاء الطلب'),
 ]
 
 class Customer(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, null=True)
     email = models.CharField(max_length=200)
+    status_customer = models.CharField(max_length=2, choices=CUSTOMER_STATUS, default='CU')
 
     def __str__(self):
         return self.name
@@ -45,7 +55,7 @@ class Order(models.Model):
     date_ordered = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False, null=True, blank=True)
     transaction_id = models.CharField(max_length=100, null=True)
-    status_order = models.CharField(max_length=2, choices=ORDER_STATUS, default='UR')
+    status_order = models.CharField(max_length=2, choices=ORDER_STATUS, default='NO')
 
     def __str__(self):
         return str(self.id)

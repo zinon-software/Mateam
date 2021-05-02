@@ -11,10 +11,15 @@ from .utils import cartData
 # Create your views here.
 
 def listProducts(request):
-    products = Product.objects.all()
-    data = cartData(request)
-    cartItems = data['cartItems']
-    return render(request, 'product.html', {"products":products, 'cartItems':cartItems})
+    if request.user.is_authenticated:
+        products = Product.objects.all()
+        data = cartData(request)
+        cartItems = data['cartItems']
+        context = {"products":products, 'cartItems':cartItems}
+    else:
+        products = Product.objects.all()
+        context = {"products":products}
+    return render(request, 'product.html', context)
 
 def cart(request):
     data = cartData(request)
@@ -64,6 +69,7 @@ def updateItem(request):
     
     return JsonResponse(data, safe=False)
 
+
 from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def processOrder(request):
@@ -77,6 +83,7 @@ def processOrder(request):
     total = float(data['form']['total'])
     if total == order.get_cart_total:
         order.complete = True
+        order.status_order = 'UR'
     order.save()
 
     if order.shipping == True:
@@ -96,7 +103,7 @@ def processOrder(request):
     
 def tracking(request):
     customer = request.user.customer
-    orders = Order.objects.filter(customer=customer)
+    orders = Order.objects.filter(customer=customer).order_by('-id')
     return render(request, 'tracking.html', {'orders':orders})
 
 
