@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from app.models import *
 
+from django.contrib.auth.decorators import login_required
+
 from django.http import JsonResponse
 # Create your views here.
 
-
+@login_required()
 def dashboard(request):
     try:
         if request.user.is_authenticated:
@@ -20,6 +22,7 @@ def dashboard(request):
         print('الدالة no لا تقلع')
     
     return render(request, 'dashboard.html', context)
+
 
 def update_order(request):
     orderId = request.POST.get('orderId')
@@ -37,6 +40,7 @@ def update_order(request):
     return JsonResponse(f'تمت الموافقة على الطلب رقم ..  {orderId}', safe=False)
     
 
+@login_required()
 def delivery(request):
     try:
         customer = request.user.customer
@@ -50,6 +54,7 @@ def delivery(request):
     
     return render(request, 'delivery.html', context)
 
+@login_required()
 def chef(request):
     try:
         customer = request.user.customer

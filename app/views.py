@@ -1,5 +1,7 @@
 from django.shortcuts import render, HttpResponse 
 
+from django.contrib.auth.decorators import login_required
+
 from django.utils import timezone
 from django.http import JsonResponse
 import json
@@ -9,6 +11,7 @@ from .models import *
 from .utils import cartData
 
 # Create your views here.
+
 
 def listProducts(request):
     if request.user.is_authenticated:
@@ -21,6 +24,7 @@ def listProducts(request):
         context = {"products":products}
     return render(request, 'product.html', context)
 
+@login_required()
 def cart(request):
     data = cartData(request)
     context = {
@@ -30,6 +34,7 @@ def cart(request):
     }    
     return render(request, "cart.html", context)
 
+@login_required()
 def checkout(request):
     data = cartData(request)
     context = {
@@ -100,7 +105,7 @@ def processOrder(request):
 
 
 
-    
+@login_required()
 def tracking(request):
     customer = request.user.customer
     orders = Order.objects.filter(customer=customer).order_by('-id')

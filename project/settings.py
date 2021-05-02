@@ -40,6 +40,9 @@ INSTALLED_APPS = [
 
     'app',
     'dashboard',
+    'accounts',
+
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -134,3 +137,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+LOGOUT_REDIRECT_URL = 'listProducts'
+
+LOGIN_REDIRECT_URL = 'listProducts'
+
+LOGIN_URL = 'login'
