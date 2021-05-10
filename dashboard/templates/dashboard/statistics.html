@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include "include/nav_dash.html" %}
+<div class="m-5"> 
+
+        <span class="badge bg-primary rounded-pill"> إجمالي المبيعات {{the_sales}}</span>
+        <span class="badge bg-primary rounded-pill"> إجمالي الطلبات {{order}}</span>
+
+        <ol class="list-group list-group-numbered">
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="fw-bold">طلبات لم تاكد بعد</div>
+            </li>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: {{UR}}%;" aria-valuenow="{{UR}}" aria-valuemin="0" aria-valuemax="{{order}}">{{UR}}%</div>
+            </div>
+        </ol>
+
+        <ol class="list-group list-group-numbered">
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="fw-bold">طلبات مؤكدة</div>
+            </li>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: {{BA}}%;" aria-valuenow="{{BA}}" aria-valuemin="0" aria-valuemax="{{order}}">{{BA}}%</div>
+            </div>
+        </ol>
+
+        <ol class="list-group list-group-numbered">
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="fw-bold">قيد التحضر</div>
+            </li>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: {{UP}}%;" aria-valuenow="{{UP}}" aria-valuemin="0" aria-valuemax="{{order}}">{{UP}}%</div>
+            </div>
+        </ol>
+
+        <ol class="list-group list-group-numbered">
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="fw-bold">في طريقها الى العميل</div>
+            </li>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: {{BS}}%;" aria-valuenow="{{BS}}" aria-valuemin="0" aria-valuemax="{{order}}">{{BS}}%</div>
+            </div>
+        </ol>
+
+        <ol class="list-group list-group-numbered">
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="fw-bold">تم توصيلها الى العميل</div>
+            </li>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: {{DE}}%;" aria-valuenow="{{DE}}" aria-valuemin="0" aria-valuemax="{{order}}">{{DE}}%</div>
+            </div>
+        </ol>
+
+        <ol class="list-group list-group-numbered">
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="fw-bold"> طلبات تم الغائها</div>
+            </li>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: {{FH}}%;" aria-valuenow="{{FH}}" aria-valuemin="0" aria-valuemax="{{order}}">{{FH}}%</div>
+            </div>
+        </ol>
+
+        <br>
+        <ol class="list-group list-group-numbered">
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="fw-bold"> طلبات في سلة التسوق</div>
+            </li>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: {{NO}}%;" aria-valuenow="{{NO}}" aria-valuemin="0" aria-valuemax="{{order}}">{{NO}}%</div>
+            </div>
+        </ol>
+         <br>
+                
+</div>
+{% endblock content %}
+
+
+
+{% block javaScriot %}
+    <script>
+        $(document).ready(function(){
+            setInterval(function(){
+                location.reload()
+            },30000);
+        });
+    </script>
+{% endblock javaScriot %}

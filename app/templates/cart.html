@@ -2,37 +2,31 @@
 
 {% block content %}
 <div class="box-element">
-    <a class="btn btn-outline-dark" href="{% url 'listProducts' %}">&#x2190; Continue Shopping</a>
+    <a class="btn btn-outline-dark" href="{% url 'listProducts' %}">&#x2190; مواصلة التسوق</a>
     <br>
     <br>
     <table class="table">
     <tr>
-        <th><t5>Items: <strong>{{ order.get_cart_items }}</strong></t5></th>
-        <th><t5>Total: <strong> ${{ order.get_cart_total }}</strong></t5></th>
+        <th><t5>الكمية: <strong>{{ order.get_cart_items }}</strong></t5></th>
+        <th><t5>المجموع: <strong> ${{ order.get_cart_total }}</strong></t5></th>
         <th>
-        <a style="float: right; margin: 5px;" class="btn btn-success" href="{% url 'checkout'%}">Checkout</a>
+        <a style="float: right; margin: 5px;" class="btn btn-success" href="{% url 'checkout'%}">الدفع</a>
         </th>
     </tr>
     </table>
 
-    <table>
+<div class="box-element">
     {% for item in items %}
-    <tr>
-        <th>اسم الطلب :  </th>
-        <th>{{item.product.name}}</th>
-        <th>  السعر : </th>
-        <th>{{item.product.price}}</th>
-        <th>  الكمية : </th>
-        <th>{{item.quantity}}</th>
-        <th>  سعر الكمية : </th>
-        <th>{{item.get_total}}</th>
-        <th></th>
-        <th><button data-product="{{ item.product.id }}" data-action="add" data-reload="yes" class="btn btn-outline-secondary add-to-cart update-cart">Add to Cart</button></th>
-        <th><button data-product="{{ item.product.id }}" data-action="remove" data-reload="yes" class="btn btn-outline-secondary add-to-cart update-cart">remove to Cart</button></th>
-
-    </tr>
+        <div class="cart-row">
+			<div style="flex:2"><p>{{ item.product.name }}</p></div>
+			<div style="flex:1"><p>${{ item.product.price|floatformat:2 }}</p></div>
+	    	<div style="flex:1"><p>x{{ item.quantity }}</p></div>
+            <div style="flex:1"><p><button data-product="{{ item.product.id }}" data-action="add" data-reload="yes" class="btn btn-outline-secondary rounded-pill add-to-cart update-cart">إضافة</button></p></div>
+            <div style="flex:1"><p><button data-product="{{ item.product.id }}" data-action="remove" data-reload="yes" class="btn btn-outline-secondary rounded-pill add-to-cart update-cart">حذف</button></p></div>
+            <div style="flex:1"><p>${{ item.get_total }}</p></div>
+		</div>
     {% endfor %}
-    </table>
+</div>
 
 </div>
 

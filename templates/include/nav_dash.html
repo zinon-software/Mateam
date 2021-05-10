@@ -1,0 +1,19 @@
+{% if request.user.customer.status_customer == "AD" %}
+    <ul class="nav justify-content-center">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="{% url 'dashboard' %}">الطلبات الجديدة</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">المنتجات </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">العمال</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">الإدارة </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'statistics' %}">الإحصائيات </a>
+      </li>
+    </ul>
+{% endif %}

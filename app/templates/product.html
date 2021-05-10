@@ -2,32 +2,30 @@
 
 {% block content %}
 
+{% include "include/carousel.html" %}
 
 <div class="m-5">
-
-    {% include "include/carousel.html" %}
-
-<div class="row b-2">
-{% for item in products %}
-  <div class="col-sm-2 m-3">
-    <div class="card" style="width: 16rem;">
-      <div class="card-body">
-        <img class="card-img-top" src="{{item.imageURL}}">
-        <div class="col">
-          <h5 class="card-title">{{item.name}}</h5>
-          <p class="card-text">{{item.price}}</p>
+  <div class="row b-2">
+    {% for item in products %}
+      <div class="col-sm-2 m-3" style="flex:1">
+        <div class="card" style="width: 16rem;">
+          <div class="card-body">
+            <img class="card-img-top" src="{{item.imageURL}}">
+            <div class="col">
+              <h5 class="card-title">{{item.name}}</h5>
+              <p class="card-text">{{item.price}}</p>
+            </div>
+            <div class="cart-row">
+              <div style="flex:1"><p><button data-product="{{ item.id }}" data-action="add" class="btn btn-outline-secondary add-to-cart update-cart">+</button></p></div>
+              <div style="flex:1"><p class="card-text quantity{{item.id}}">الكمية</p></div>
+              <div style="flex:1"><p><button data-product="{{ item.id }}" data-action="remove" class="btn btn-outline-secondary add-to-cart update-cart">-</button></p></div>
+            </div>
+          </div>
         </div>
-        <p class="card-text quantity{{item.id}}">الكمية</p>
-        <button data-product="{{ item.id }}" data-action="add" class="btn btn-outline-secondary add-to-cart update-cart">+</button>
-        <button data-product="{{ item.id }}" data-action="remove" class="btn btn-outline-secondary add-to-cart update-cart">-</button>
       </div>
-    </div>
+    {% endfor %}
   </div>
-{% endfor %}
 </div>
-</div>
-
-
 
 {% endblock content %}
 

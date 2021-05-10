@@ -31,10 +31,16 @@
         <a class="nav-link active" aria-current="page" href="{% url 'dashboard' %}">لوحة التحكم</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="{% url 'chef' %}">صفحة الشيف </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="{% url 'delivery' %}">صفحة سائق التوصيل</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'chef' %}">صفحة الشيف </a>
+        <a class="nav-link" href="{% url 'listProducts' %}">المطعم </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'tracking' %}">حالة الطلب </a>
       </li>
     </ul>
   {% elif request.user.customer.status_customer == "DL"  %}
@@ -52,11 +58,9 @@
   {% endif %}
     
 
-    <div class="m-5 mt-2">
     {% block content %}
     
     {% endblock content %}
-    </div>
     
     {% include "include/floating.html" %}
 
@@ -71,29 +75,36 @@
         $(document).ready(function(){
 
           $(".update-cart").on("click", function(){
-            var productId = this.dataset.product;
-		        var action = this.dataset.action;
-            console.log('productId:', productId, 'Action:', action)
-    
-            $.ajax({
-              method: "POST",
-              url: "updateItem",
-              data: {"productId":productId, "action":action,  csrfmiddlewaretoken: '{{ csrf_token }}'},
-              dataType: "json",
-              success: function(data){
-                $(".quantity"+productId).text(data.quantity);
-                if(data.quantity <= '0'){
-                  $(".quantity"+productId).text('0')
+
+            var user = '{{ request.user }}'
+            
+            if (user == 'AnonymousUser'){
+              location.href = "{% url 'signup' %}"
+            }else{
+              var productId = this.dataset.product;
+              var action = this.dataset.action;
+              console.log('productId:', productId, 'Action:', action)
+      
+              $.ajax({
+                method: "POST",
+                url: "updateItem",
+                data: {"productId":productId, "action":action,  csrfmiddlewaretoken: '{{ csrf_token }}'},
+                dataType: "json",
+                success: function(data){
+                  $(".quantity"+productId).text(data.quantity);
+                  if(data.quantity <= '0'){
+                    $(".quantity"+productId).text('0')
+                  }
+                  console.log("cartItems:", data.cartItems);
+                  $(".badge").text(data.cartItems);
                 }
-                console.log("cartItems:", data.cartItems);
-                $(".badge").text(data.cartItems);
+              });
+              var reload = this.dataset.reload;
+              if(reload == "yes"){
+                  location.reload()
               }
-            });
-            var reload = this.dataset.reload;
-            if(reload == "yes"){
-                location.reload()
             }
-          });
+          });  
         });
 
     </script>

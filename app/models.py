@@ -11,13 +11,13 @@ CUSTOMER_STATUS = [
 ]
 
 ORDER_STATUS = [
-    ('NO', 'لم يم ارسالة بعد'),
-    ('UR', 'قيد المراجعة'),
-    ('BA', 'تمت الموافة'),
-    ('UP', 'قيد التحضر'),
-    ('BS', 'تم الارسال'),
-    ('DE', 'تم التوصيل'),
-    ('FH', 'تم إلغاء الطلب'),
+    ('NO', 'لم يتم ارسالة بعد'),
+    ('UR', 'تم استلام طلبك بنجاح'),
+    ('BA', 'تم تأكيد طلبك'),
+    ('UP', ' طلبك قيد التحضر '),
+    ('BS', 'طلبك في الطريق اليك'),
+    ('DE', 'تم توصيل طلبك بنجاح'),
+    ('FH', 'تم إلغاء طلبك'),
 ]
 
 class Customer(models.Model):
@@ -56,6 +56,8 @@ class Order(models.Model):
     complete = models.BooleanField(default=False, null=True, blank=True)
     transaction_id = models.CharField(max_length=100, null=True)
     status_order = models.CharField(max_length=2, choices=ORDER_STATUS, default='NO')
+    booking_driver = models.BooleanField(default=False, null=True, blank=True)
+    driver = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return str(self.id)
@@ -104,4 +106,4 @@ class ShippingAddress(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.address
+        return str(self.id)
