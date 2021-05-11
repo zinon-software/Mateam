@@ -76,7 +76,7 @@ def statistics(request):
         'FH': orders.filter(status_order='FH').count(),
         'NO': orders.filter(status_order='NO').count(),
     }
-    return render(request, 'dashboard\statistics.html', context)
+    return render(request, 'statistics.html', context)
 
 
 
