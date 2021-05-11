@@ -22,6 +22,7 @@ def listProducts(request):
     else:
         products = Product.objects.all()
         context = {"products":products}
+    context = {}
     return render(request, 'product.html', context)
 
 @login_required()
