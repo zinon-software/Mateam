@@ -9,6 +9,9 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+
+import django_heroku
+
 import os
 from pathlib import Path
 
@@ -25,7 +28,7 @@ SECRET_KEY = 'django-insecure-q5^d_r3oha0g^hmcojeup$j^x)^6(ls(!y!q1+5=bqc(+v!o)q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://mateamm.herokuapp.com/', '127.0.0.1']
 
 
 # Application definition
@@ -47,6 +50,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -144,3 +148,9 @@ LOGOUT_REDIRECT_URL = 'listProducts'
 LOGIN_REDIRECT_URL = 'listProducts'
 
 LOGIN_URL = 'login'
+
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+django_heroku.settings(locals())
