@@ -8,23 +8,19 @@ import json
 import datetime
 
 from .models import *
-from .utils import cartData
+from .utils import cartData, guestOrder
 
 # Create your views here.
 
 
 def listProducts(request):
-    if request.user.is_authenticated:
-        products = Product.objects.all()
-        data = cartData(request)
-        cartItems = data['cartItems']
-        context = {"products":products, 'cartItems':cartItems}
-    else:
-        products = Product.objects.all()
-        context = {"products":products}
+    products = Product.objects.all()
+    data = cartData(request)
+    cartItems = data['cartItems']
+    context = {"products":products, 'cartItems':cartItems}
     return render(request, 'product.html', context)
 
-@login_required()
+# @login_required()
 def cart(request):
     data = cartData(request)
     context = {
@@ -34,7 +30,7 @@ def cart(request):
     }    
     return render(request, "cart.html", context)
 
-@login_required()
+# @login_required()
 def checkout(request):
     data = cartData(request)
     context = {
@@ -81,8 +77,12 @@ def processOrder(request):
     transaction_id = datetime.datetime.now().timestamp()
     data = json.loads(request.body)
     
-    customer = request.user.customer
-    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+
+    else:
+        customer, order = guestOrder(request, data)
 
     order.transaction_id = transaction_id    
     total = float(data['form']['total'])

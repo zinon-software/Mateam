@@ -21,6 +21,32 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 
 
+    <script type="text/javascript">
+        function getCookie(name) {
+
+            var cookieArr = document.cookie.split(";");
+
+            for (var i = 0; i < cookieArr.length; i++) {
+                var cookiePair = cookieArr[i].split("=");
+
+                if (name == cookiePair[0].trim()) {
+
+                    return decodeURIComponent(cookiePair[1]);
+                }
+            }
+            return null;
+        }
+        var cart = JSON.parse(getCookie('cart'))
+
+        if (cart == undefined){
+            cart = {}
+            console.log('Care was created!')
+            document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+        }
+        console.log('Cart:', cart)
+    </script>
+
+
   </head>
 
   <body>
@@ -76,14 +102,17 @@
 
           $(".update-cart").on("click", function(){
 
+            var productId = this.dataset.product;
+            var action = this.dataset.action;
+            var reload = this.dataset.reload;
+            console.log('productId:', productId, 'Action:', action)
+
             var user = '{{ request.user }}'
             
             if (user == 'AnonymousUser'){
-              location.href = "{% url 'signup' %}"
+              addCookieItem(productId, action, reload)
             }else{
-              var productId = this.dataset.product;
-              var action = this.dataset.action;
-              console.log('productId:', productId, 'Action:', action)
+              
       
               $.ajax({
                 method: "POST",
@@ -99,13 +128,45 @@
                   $(".badge").text(data.cartItems);
                 }
               });
-              var reload = this.dataset.reload;
+              
               if(reload == "yes"){
                   location.reload()
               }
             }
           });  
         });
+
+        function addCookieItem(productId, action, reload){
+          console.log('User is not authenticated')
+
+          if (action == 'add'){
+            if (cart[productId] == undefined){
+              cart[productId] = {'quantity':1}
+
+            }else{
+              cart[productId]['quantity'] += 1
+            }
+          }
+
+          if (action == 'remove'){
+            cart[productId]['quantity'] -= 1
+
+            if (cart[productId]['quantity'] <= 0){
+              console.log('Item should be deleted')
+              delete cart[productId];
+            }
+          }
+          console.log('CART:', cart)
+          document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
+
+          if(reload == "yes"){
+            location.reload()
+          }
+          $(document).ready(function(){
+            $(".quantity"+productId).text(cart[productId]['quantity']);
+          });
+
+        }
 
     </script>
 
@@ -118,5 +179,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
     -->
+    
   </body>
 </html>
