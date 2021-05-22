@@ -18,6 +18,7 @@ from rest_framework import generics
 #     data = ProductSerializers(product).data
 #     return Response({"data": data})
 
+# producte
 class ProductsApi(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializers
@@ -25,4 +26,34 @@ class ProductsApi(generics.ListCreateAPIView):
 class ProductDetailApi(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializers
+    lookup_field = 'id'
+
+# order
+class OrderApi(generics.ListCreateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializers
+
+class OrderDetailApi(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializers
+    lookup_field = 'id'
+
+# OrderItem
+class OrderItemApi(generics.ListCreateAPIView):
+    queryset = OrderItem.objects.all()
+    serializer_class = OrderItemSerializers
+
+class OrderItemDetailApi(generics.RetrieveUpdateDestroyAPIView):
+    queryset = OrderItem.objects.all()
+    serializer_class = OrderItemSerializers
+    lookup_field = 'id'
+
+# ShippingAddress
+class ShippingAddressApi(generics.ListCreateAPIView):
+    queryset = ShippingAddress.objects.all()
+    serializer_class = ShippingAddressSerializers
+
+class ShippingAddressDetailApi(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ShippingAddress.objects.all()
+    serializer_class = ShippingAddressSerializers
     lookup_field = 'id'

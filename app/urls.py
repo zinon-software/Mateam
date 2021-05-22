@@ -20,5 +20,14 @@ urlpatterns = [
     path('api/v2/products', api.ProductsApi.as_view(), name='ProductsApi'),
     path('api/v2/products/<int:id>', api.ProductDetailApi.as_view(), name='ProductDetailApi'),
 
+    path('api/Order', api.OrderApi.as_view(), name='OrderApi'),
+    path('api/Order/<int:id>', api.OrderDetailApi.as_view(), name='OrderDetailApi'),
+
+    path('api/OrderItem', api.OrderItemApi.as_view(), name='OrderItemApi'),
+    path('api/OrderItem/<int:id>', api.OrderItemDetailApi.as_view(), name='OrderItemDetailApi'),
+
+    path('api/ShippingAddress', api.ShippingAddressApi.as_view(), name='ShippingAddressApi'),
+    path('api/ShippingAddress/<int:id>', api.ShippingAddressDetailApi.as_view(), name='ShippingAddressDetailApi'),
+
 ]
 

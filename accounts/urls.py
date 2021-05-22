@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from . import api
 from django.contrib.auth import views as auth_views
 from project import settings
 
@@ -13,6 +14,12 @@ urlpatterns = [
     path('settings/change_password/done', auth_views.PasswordChangeDoneView.as_view(template_name='change_password_done.html'),
          name='password_change_done'),
     path('account/', views.UserUpdateView.as_view(), name='my_account'),
+
+
+    ## api class based view
+    path('api/Customer', api.CustomerApi.as_view(), name='CustomerApi'),
+    path('api/Customer/<int:id>', api.CustomerDetailApi.as_view(), name='CustomerDetailApi'),
+
 ]
 
 
