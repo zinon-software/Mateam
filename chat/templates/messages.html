@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="m-5"> 
+  <form method="post" class="mb-4" novalidate>
+    {% csrf_token %}
+    <div class="col-auto">
+      <input type="text" name="messages" class="form-control" id="inputPassword6" >
+    </div>
+    <button type="submit" class="btn btn-success">إرسال</button>
+  </form>
+  {% for chat in chats %}
+      {% if chat.customer == True %}
+      <div class="alert alert-primary" role="alert">
+      <div class="col-6 text-right">
+        <small class="text-muted">انا</small>
+      </div>    
+      {% else %}
+      <div class="alert alert-danger" role="alert">
+      <div class="col-6 text-right">
+        <small class="text-muted">{{ chat.super_user.username}}</small>
+      </div>
+      {% endif %}
+        <div class="card mb-2" >
+          <div class="card-body p-3">
+            <div class="row">
+              
+              <div class="col-10">
+                <div class="row mb-3">
+                  {% comment %} {% if post.created_by == user %}
+                    <div class="col-6">
+                      <strong  class="text-muted">{{ chat.created_by.user.username }}</strong>
+                    </div>
+                  {% endif %}
+                  <div class="col-6 text-right">
+                    <small class="text-muted">{{ chat.super_user.username}}</small>
+                  </div> {% endcomment %}
+                  <div class="col-6 text-right">
+                    <small class="text-muted">{{ chat.messages}}</small>
+                  </div>
+                  <div class="col-6 text-right">
+                    <small class="text-muted">{{ chat.date_added}}</small>
+                  </div>
+                </div>
+  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+
+</div>
+{% endblock content %}
+
+
+
+{% block javaScriot %}
+{% endblock javaScriot %}

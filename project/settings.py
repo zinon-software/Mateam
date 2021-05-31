@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'app',
     'dashboard',
     'accounts',
+    'chat',
 
     'widget_tweaks',
     'rest_framework',

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="m-5"> 
+    {% for contact in contacts %}
+        <div class="mb-4">
+            <p>{{contact.user.username}}</p>
+            <a href="{% url 'messages_admin' contact.id %}" class="btn btn-primary">مراسلة</a>
+        </div> 
+    {% endfor %}
+</div>
+{% endblock content %}
+
+
+
+{% block javaScriot %}
+{% endblock javaScriot %}
