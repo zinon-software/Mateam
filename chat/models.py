@@ -1,20 +1,21 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 # Create your models here.
 
-class Contact(models.Model):
-    user = models.OneToOneField(User, related_name='friends', on_delete=models.CASCADE)
+User = get_user_model()
 
-    def __str__(self):
-        return self.user.username
-
-class Chat(models.Model):
-    created_by = models.ForeignKey(Contact, on_delete=models.SET_NULL, null=True)
-    super_user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    messages = models.TextField(max_length=4000, blank=True, null=True)
+class Message(models.Model):
+    sender = models.ForeignKey(User, related_name='sent_messages', on_delete=models.CASCADE)
+    receiver = models.ForeignKey(User, related_name='receiver_messages', on_delete=models.CASCADE)
+    message = models.TextField()
+    seen = models.BooleanField(default=False)
     date_added = models.DateTimeField(auto_now_add=True)
-    customer = models.BooleanField(default=True, null=True, blank=True)
 
     def __str__(self):
-        return str(self.id)
+        return self.sender.username
+    
+    
+    class Meta:
+        ordering = ("date_added",)
+

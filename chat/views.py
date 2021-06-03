@@ -1,39 +1,47 @@
-from django.shortcuts import render, redirect
-from .models import *
-from django.contrib.auth.models import User
-from .forms import ChatForm
+from django.shortcuts import get_object_or_404, render
 
+
+from .models import User, Message
+from django.contrib.auth.decorators import login_required
+from django.http.response import JsonResponse
+from django.db.models import Q
+import json
 
 # Create your views here.
 
-def get_chat(request):
-    contacts = Contact.objects.all()
-    context = {'contacts':contacts, }
-    return render(request, 'chat.html', context)
+@login_required
+def chatroom(request, pk):
+    # other_user = get_object_or_404(User, pK=pK)
+    other_user = User.objects.get(id=pk)
+    messages = Message.objects.filter(
+        Q(receiver=request.user, sender=other_user)
+    )
+    messages.update(seen=True)
+    messages = messages | Message.objects.filter(Q(receiver=other_user, sender=request.user))
 
-def get_messages(request):
-    created_by = request.user
-    contact, created = Contact.objects.get_or_create(user=created_by)
-    chats = contact.chat_set.all().order_by('-date_added')
+    return render(request, "chatroom.html", {"other_user":other_user, "messages": messages})
 
-    if request.method == 'POST':
-        messages = request.POST.get('messages')
-        super_user = User.objects.all().first()
-        data = Chat(created_by=contact, super_user=super_user, messages=messages)
-        data.save()
-        return redirect('messages')
-    context = {'chats':chats}
-    return render(request, 'messages.html', context)
+@login_required
+def ajax_load_messages(request, pk):
+    # other_user = get_object_or_404(User, pK=pK)
+    other_user = User.objects.get(id=pk)
+    messages = Message.objects.filter(seen=False).filter(
+        Q(receiver=request.user, sender=other_user)
+    )
+    message_list = [{
+        "sender": message.sender.username,
+        "message": message.message,
+        "sent": message.sender == request.user
+    } for message in messages]
+    messages.update(seen=True)
 
-def get_messages_admin(request, id):
-    contact = Contact.objects.get(id=id)
-    chats = contact.chat_set.all().order_by('-date_added')
+    if request.method == "POST":
+        message = json.loads(request.body)
+        m = Message.objects.create(receiver=other_user, sender=request.user, message=message)
+        message_list.append({
+            "sender": request.user.username,
+            "message": m.message,
+            "sent": True,
+        })
 
-    if request.method == 'POST':
-        messages = request.POST.get('messages')
-        super_user = request.user
-        data = Chat(created_by=contact, super_user=super_user, messages=messages, customer=False)
-        data.save()
-        return redirect('messages/' + str(id))
-    context = {'chats':chats}
-    return render(request, 'messages.html', context)
+    return JsonResponse(message_list, safe=False)

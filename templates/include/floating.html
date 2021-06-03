@@ -24,6 +24,18 @@
     background-color: #fdd835;
     box-shadow: 0px 2px 5px #666;
   }
+   #floating-button3 {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: red;
+    position: fixed;
+    bottom: 150px;
+    left: 30px;
+    cursor: pointer;
+    background-color: #fdd835;
+    box-shadow: 0px 2px 5px #666;
+  }
 </style>
 
 <div id="container-floating">
@@ -37,6 +49,12 @@
         <a href="{% url 'checkout' %}">
           <i id="legend" class="fas fa-shopping-bag fa-stack-1x fa-inverse fa-1x" style="top:10px"></i>
           <span class="badge bg-red badge-corner" style="color:#111">{{cartItems}}</span>
+        </a>
+    </div>
+    <div id="floating-button3">
+        <a href="{% url 'chatroom' 1 %}">
+          <i id="legend" class="fas fa-shopping-bag fa-stack-1x fa-inverse fa-1x" style="top:10px"></i>
+          <span class="badge bg-red badge-corner" style="color:#111">الرسائل</span>
         </a>
     </div>
 </div>

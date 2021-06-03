@@ -71,7 +71,12 @@ def guestOrder(request, data):
     cookieData = cookieCart(request)
     items = cookieData['items']
 
-    user = User(username=name, email=email)
+    # user = User(username=name, email=email)
+    # user.set_password('7hd9sytsy7uhh')
+    # user.save()
+
+    user, created = User.objects.get_or_create(username=name)
+    user.email=email
     user.set_password('7hd9sytsy7uhh')
     user.save()
         
