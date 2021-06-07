@@ -4,28 +4,36 @@
 
 {% include "include/carousel.html" %}
 
-<div class="m-5">
-  <div class="row b-2">
-    {% for item in products %}
-      <div class="col-sm-2 m-3" style="flex:1">
-        <div class="card" style="width: 16rem;">
-          <div class="card-body">
-            <img class="card-img-top" src="{{item.imageURL}}">
-            <div class="col">
-              <h5 class="card-title">{{item.name}}</h5>
-              <p class="card-text">{{item.price}}</p>
+{% load static %}
+
+
+  <body>
+    <main>
+      <nav>
+        <h1> مطعم كنتاكي</h1>
+        <h1> قائمة الطعام</h1>
+        <h1> تسجيل الدخول</h1>
+        <h1> مطعم كنتاكي</h1>
+      </nav>
+      <div class="container">
+        {% for item in products %}
+        <div class="card">
+            <img class="card--avatar" src="{{item.imageURL}}" />
+            <h1 class="card--title">{{item.name}}</h1>
+            <div class="cart--row">
+              <a class="card--link" href="#">التفاصيل</a>
+              <p class="card-text"> السعر {{item.price}} ريال </p>
             </div>
-            <div class="cart-row">
-              <div style="flex:1"><p><button data-product="{{ item.id }}" data-action="add" class="btn btn-outline-secondary add-to-cart update-cart">+</button></p></div>
-              <div style="flex:1"><p class="card-text quantity{{item.id}}">الكمية</p></div>
-              <div style="flex:1"><p><button data-product="{{ item.id }}" data-action="remove" class="btn btn-outline-secondary add-to-cart update-cart">-</button></p></div>
+            <div class="cart--row">
+              <button data-product="{{ item.id }}" data-action="add" class=" card--link btn btn-outline-secondary add-to-cart update-cart">+</button>
+              <a class="card--link quantity{{item.id}}">الكمية</a>
+              <button data-product="{{ item.id }}" data-action="remove" class="card--link btn btn-outline-secondary add-to-cart update-cart">-</button>
             </div>
-          </div>
         </div>
+        {% endfor %}
       </div>
-    {% endfor %}
-  </div>
-</div>
+    </main>
+  </body>
 
 {% endblock content %}
 
