@@ -21,7 +21,7 @@
             <img class="card--avatar" src="{{item.imageURL}}" />
             <h1 class="card--title">{{item.name}}</h1>
             <div class="cart--row">
-              <a class="card--link" href="#">التفاصيل</a>
+              <a class="card--link" href="{% url 'product_detail' item.id %}">التفاصيل</a>
               <p class="card-text"> السعر {{item.price}} ريال </p>
             </div>
             <div class="cart--row">

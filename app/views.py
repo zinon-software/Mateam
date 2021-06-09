@@ -20,6 +20,12 @@ def listProducts(request):
     context = {"products":products, 'cartItems':cartItems}
     return render(request, 'product.html', context)
 
+def product_detail(request, id):
+    product = Product.objects.get(id=id)
+    return render(request, 'product_detail.html', {'product':product})
+
+
+
 # @login_required()
 def cart(request):
     data = cartData(request)

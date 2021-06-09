@@ -5,6 +5,7 @@ from . import api
 urlpatterns = [
     
     path('', views.listProducts, name='listProducts'),
+    path('product/detail/<int:id>', views.product_detail, name='product_detail'),
     path('cart', views.cart, name='cart'),
     path('checkout', views.checkout, name='checkout'),
     path('updateItem', views.updateItem, name='updateItem'),
