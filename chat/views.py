@@ -45,3 +45,10 @@ def ajax_load_messages(request, pk):
         })
 
     return JsonResponse(message_list, safe=False)
+
+
+def list_chat_for_admin(request):
+    chatrooms =  Message.objects.filter(receiver=request.user, seen=False)
+    coun = chatrooms.count()
+    return render(request, "list_chat_for_admin.html", { "chatrooms": chatrooms, 'coun':coun})
+

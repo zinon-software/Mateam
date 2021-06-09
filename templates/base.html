@@ -71,7 +71,7 @@
         <a class="nav-link" href="{% url 'tracking' %}">حالة الطلب </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">الرسائل </a>
+        <a class="nav-link" href="{% url 'chatroom-admin' %}">الرسائل {{coun}}</a>
       </li>
     </ul>
   {% elif request.user.customer.status_customer == "DL"  %}
