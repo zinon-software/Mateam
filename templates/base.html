@@ -121,7 +121,7 @@
       
               $.ajax({
                 method: "POST",
-                url: "updateItem",
+                url: "/updateItem/",
                 data: {"productId":productId, "action":action,  csrfmiddlewaretoken: '{{ csrf_token }}'},
                 dataType: "json",
                 success: function(data){

@@ -9,6 +9,7 @@ body {
     height: 100vh;
     background: #666;
     flex-direction: column;
+    flex-grow: initial;
 }
 
 .header {

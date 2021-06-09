@@ -1,29 +1,38 @@
 {% extends "base.html" %}
+
 {% block content %}
 
 
 {% load static %}
 
 
+<body>
+<main>
+    <div class="container">
+    <div class="card">
+        <img class="card--avatar" src="{{product.imageURL}}" />
+        <h1 class="card--title">{{product.name}}</h1>
+        <div class="cart--row">
+            <p class="card-text"> السعر {{product.price}} ريال </p>
+        </div>
+        <div class="cart--row">
+            <button data-product="{{ product.id }}" data-action="add" class=" card--link btn btn-outline-secondary add-to-cart update-cart">إضافة</button>
+            <a class="card--link quantity{{product.id}}">الكمية</a>
+            <button data-product="{{ product.id }}" data-action="remove" class="card--link btn btn-outline-secondary add-to-cart update-cart">حذف</button>
+        </div>
+    </div>
+    </div>
+</main>
+</body>
+
 <div class="container">
-<div class="card">
-    <img class="card--avatar" src="{{product.imageURL}}" />
-    <h1 class="card--title">{{product.name}}</h1>
-    <div class="cart--row">
-        <p class="card-text"> السعر {{product.price}} ريال </p>
-    </div>
-    <div class="cart--row">
-        <button data-product="{{ product.id }}" data-action="add" class=" card--link btn btn-outline-secondary add-to-cart update-cart">+</button>
-        <a class="card--link quantity{{product.id}}">الكمية</a>
-        <button data-product="{{ product.id }}" data-action="remove" class="card--link btn btn-outline-secondary add-to-cart update-cart">-</button>
-    </div>
-</div>
+    <h1 class="card--title">التفاصيل</h1>
+    {{product.description}}
 </div>
 
 {% endblock content %}
 
-
 {% block javaScriot %}
-    
-    
+
+
 {% endblock javaScriot %}
